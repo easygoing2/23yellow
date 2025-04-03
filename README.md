@@ -1,5 +1,6 @@
-# 23yellow SSH 환경에서 git 연동하기
+# 23yellow
 
+## 23yellow SSH 환경에서 git 연동하기
 - **기존 원격 저장소 확인**:
 git remote -v
 
