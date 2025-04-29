@@ -1,0 +1,1 @@
+echo "test-php" >> /home/sml/webroot/sm-board-06/api/zzz.txt
