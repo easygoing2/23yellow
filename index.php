@@ -79,7 +79,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 
     // 무한스크롤 추가 데이터 생성 부분
     $html = '';
-    foreach ($items as $r) {
+    // 현재 페이지 번호를 가져옵니다. (AJAX 요청 시 'page' 파라미터로 전달됨)
+    $currentPageForNumbering = (int)($_GET['page'] ?? '1'); 
+    // 각 아이템에 대한 순번을 계산하기 위한 시작 번호
+    // 첫 페이지는 0부터 시작하므로, (페이지번호 - 1) * 페이지당 아이템 수
+    $itemNumberStart = ($currentPageForNumbering - 1) * ITEMS_PER_PAGE;
+
+    foreach ($items as $index => $r) { // $index를 사용하여 각 아이템의 순번을 가져옵니다.
+      $itemNumber = $itemNumberStart + $index + 1; // 실제 표시될 번호
       $html .= '<tr alt="무한스크롤 추가 데이터">
         <td>
           <div class="thumbnail" style="background-image: url(\'' . 
@@ -87,7 +94,8 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
           '\')" title="' . safe_string($r->facltNm) . '"></div>
         </td>
         <td class="content">
-          <a href="#" alt="캠핑장명" class="place-name">' . 
+          ' . $itemNumber . '. ' . // <--- 여기에 번호를 추가합니다.
+          '<a href="#" alt="캠핑장명" class="place-name">' . 
           safe_string($r->facltNm) . '</a><br>
           <a href="#" alt="주소" class="address-link" 
             data-mapx="' . safe_string($r->mapX) . '"
@@ -568,7 +576,7 @@ boardContainer.addEventListener('scroll', function() {
     
     lastScrollTime = now;
     
-    if (boardContainer.scrollHeight - boardContainer.scrollTop <= boardContainer.clientHeight + 200) {
+    if (boardContainer.scrollHeight - boardContainer.scrollTop <= boardContainer.clientHeight + 300) {
         console.log('스크롤 감지, 데이터 로드 시작');
         loadMoreData();
     }
