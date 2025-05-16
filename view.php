@@ -6,7 +6,9 @@ include $_SERVER['DOCUMENT_ROOT'] . "/dbconfig.php";
 $contentId = $_GET["contentId"];
 $result = $mysqli->query("select * from gogocamping where contentId=" . $contentId) or die("query error => " . $mysqli->error);
 $rs = $result->fetch_object();
-
+// echo '<pre>';
+// print_r($rs);
+// echo '</pre>';
 // 이미지 목록 가져오기
 $images = [];
 $sqlImages = "SELECT * FROM gogocamping_image WHERE contentId = " . (int)$contentId . " ORDER BY id ASC";
@@ -109,9 +111,13 @@ include $_SERVER["DOCUMENT_ROOT"] . "/header.php";
       
       <!-- 블로그 리뷰 영역 -->
       <?php if (count($blogs) > 0): ?>
+      <?php 
+        /* echo '<pre>';
+        print_r($blogs);
+        echo '</pre>'; */
+      ?>
       <div class="view-blogs-section">
         <h3>블로그 리뷰</h3>
-        
         <div class="faclt-review-wrap" style="height:auto; padding-right:15px;">
           <?php foreach ($blogs as $blog): ?>
           <div class="contents-wrap">
@@ -203,7 +209,61 @@ include $_SERVER["DOCUMENT_ROOT"] . "/footer.php";
     padding-bottom: 10px;
     border-bottom: 1px dashed #66c57f;
   }
-  
+
+  .view-blogs-section {
+    .faclt-review-wrap {
+      .contents-wrap {
+        margin: 0 0 15px 0;
+        .contents {
+          display: flex;
+          img {
+            display: inline-block;
+            width: 20%;
+            border-radius: 8px;
+            border: 1px solid #eee;
+          }
+          .review-wrap {
+            display: inline-block;
+            width: 80%;
+            padding: 5px 0 0 15px;
+            .tit {
+              font-size: 15px;
+              font-weight: 500;
+              margin-bottom: 10px;
+              color: #333;
+            }
+            .txt {
+              display: block;
+              font-size: 13px;
+              margin-bottom: 10px;
+              color: #959595;
+            }
+            .link {
+              margin: 5px 0 0 0;
+              .date {
+                display: inline-block;
+                position: relative;
+                background: #ececec;
+                color: #5e5e5e;
+                padding: 2px 7px;
+                font-size: 11px;
+                font-weight: 300;
+              }
+              a {
+                display: inline-block;
+                position: relative;
+                background: #009900;
+                color: #fff;
+                padding: 2px 7px;
+                font-size: 11px;
+                font-weight: 300;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   .swiper {
     width: 100%;
     height: 400px;
@@ -301,13 +361,68 @@ include $_SERVER["DOCUMENT_ROOT"] . "/footer.php";
     background-color: #4ca365;
   }
   
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 720px) {
     .view-content-wrap {
       padding: 15px;
     }
     
     .swiper {
       height: 300px;
+    }
+
+    .view-blogs-section {
+      .faclt-review-wrap {
+        .contents-wrap {
+          margin: 0 0 15px 0;
+          .contents {
+            display: flex;
+            img {
+              display: inline-block;
+              width: 100%;
+              border-radius: 8px;
+              border: 1px solid #eee;
+            }
+            .review-wrap {
+              display: inline-block;
+              width: 100%;
+              padding: 5px 0 0 15px;
+              .tit {
+                font-size: 15px;
+                font-weight: 500;
+                margin-bottom: 10px;
+                color: #333;
+              }
+              .txt {
+                display: block;
+                font-size: 13px;
+                margin-bottom: 10px;
+                color: #959595;
+              }
+              .link {
+                margin: 5px 0 0 0;
+                .date {
+                  display: inline-block;
+                  position: relative;
+                  background: #ececec;
+                  color: #5e5e5e;
+                  padding: 2px 7px;
+                  font-size: 11px;
+                  font-weight: 300;
+                }
+                a {
+                  display: inline-block;
+                  position: relative;
+                  background: #009900;
+                  color: #fff;
+                  padding: 2px 7px;
+                  font-size: 11px;
+                  font-weight: 300;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 </style>
