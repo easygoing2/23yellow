@@ -29,7 +29,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/ajax.php";
 include $_SERVER["DOCUMENT_ROOT"] . "/header.php";
 ?>
 
-<div class="container-board">
+<div class="view-page">
   <div class="contents">
     <div class="view-content-wrap">
       <h1 class="view-title"><?php echo $rs->facltNm; ?></h1>
@@ -39,31 +39,37 @@ include $_SERVER["DOCUMENT_ROOT"] . "/header.php";
         <div id="viewMap" style="width:100%; height:400px;"></div>
       </div>
 
-      <div class="faclt-info-wrap view-info">
-        <div class="faclt-thumb">
-          <div class="img" style="background-image: url('<?php echo $rs->firstImageUrl ?: $_SERVER["DOCUMENT_URI"].'/static/img/no-image.png' ?>')"></div>
-        </div>
+      <div class="view-info">
         <div class="faclt-txt">
-          <div class="faclt-tit">
-            <?php echo $rs->facltNm ?>
+          <div class="faclt-status">
             <?php if ($rs->manageSttus): ?>
-            <span>(<?php echo $rs->manageSttus ?> 중)</span>
+            <span>운영상태 : </span>
+            <span><?php echo $rs->manageSttus ?> 중</span>
             <?php endif; ?>
           </div>
-          <div class="faclt-addr">주소 : <?php echo $rs->addr1; ?> <?php echo $rs->addr2; ?></div>
-          <div class="faclt-tel">TEL : <?php echo $rs->tel ?: '정보 없음'; ?></div>
-          <div class="faclt-tel"><span>H.P : </span>
-            <?php if ($rs->homepage): ?>
-              <a href="<?php echo $rs->homepage; ?>" target="_blank"><?php echo $rs->homepage; ?></a>
-            <?php else: ?>
-              정보 없음
-            <?php endif; ?>
+          <div class="faclt-addr">
+            <span>주소 : </span>
+            <span><?php echo $rs->addr1; ?> <?php echo $rs->addr2; ?></span>
+          </div>
+          <div class="faclt-tel">
+            <span>TEL : </span>
+            <span><?php echo $rs->tel ?: '정보 없음'; ?></span>
+          </div>
+          <div class="faclt-homepage">
+            <span>H.P : </span>
+            <span>
+              <?php if ($rs->homepage): ?>
+                <a href="<?php echo $rs->homepage; ?>" target="_blank"><?php echo $rs->homepage; ?></a>
+              <?php else: ?>
+                정보 없음
+              <?php endif; ?>
+            </span>
           </div>
         </div>
       </div>
 
       <?php if ($rs->intro && $rs->intro !== '정보없음'): ?>
-      <div class="faclt-add-txt" style="height:auto; margin-bottom:20px;">
+      <div class="faclt-add-txt">
         <div class="txt-wrap">
           <div class="txt"><?php echo nl2br($rs->intro); ?></div>
         </div>
@@ -157,274 +163,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/footer.php";
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <style>
-  .container-wrap {
-    height: auto !important;
-  }
-  .container-board {
-    height: auto !important;
-  }
-  .contents {
-    height: auto !important;
-  }
-  .view-content-wrap {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  }
   
-  .view-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-    border-bottom: 2px solid #66c57f;
-    padding-bottom: 10px;
-  }
-  
-  .view-map-container {
-    margin-bottom: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  }
-  
-  .view-info {
-    margin-bottom: 15px !important;
-  }
-  
-  .view-gallery-section, 
-  .view-blogs-section {
-    margin-bottom: 30px;
-  }
-  
-  .view-gallery-section h3,
-  .view-blogs-section h3 {
-    font-size: 18px;
-    color: #2c3e50;
-    margin: 0 0 15px 0;
-    padding-bottom: 10px;
-    border-bottom: 1px dashed #66c57f;
-  }
-
-  .view-blogs-section {
-    .faclt-review-wrap {
-      .contents-wrap {
-        margin: 0 0 15px 0;
-        .contents {
-          display: flex;
-          img {
-            display: inline-block;
-            width: 20%;
-            border-radius: 8px;
-            border: 1px solid #eee;
-          }
-          .review-wrap {
-            display: inline-block;
-            width: 80%;
-            padding: 5px 0 0 15px;
-            .tit {
-              font-size: 15px;
-              font-weight: 500;
-              margin-bottom: 10px;
-              color: #333;
-            }
-            .txt {
-              display: block;
-              font-size: 13px;
-              margin-bottom: 10px;
-              color: #959595;
-            }
-            .link {
-              margin: 5px 0 0 0;
-              .date {
-                display: inline-block;
-                position: relative;
-                background: #ececec;
-                color: #5e5e5e;
-                padding: 2px 7px;
-                font-size: 11px;
-                font-weight: 300;
-              }
-              a {
-                display: inline-block;
-                position: relative;
-                background: #009900;
-                color: #fff;
-                padding: 2px 7px;
-                font-size: 11px;
-                font-weight: 300;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  .swiper {
-    width: 100%;
-    height: 400px;
-    margin: 20px 0;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #000;
-  }
-  
-  .swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .swiper-slide img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
-  
-  .swiper-button-next,
-  .swiper-button-prev {
-    color: #ffffff;
-    background: rgba(0,0,0,0.3);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .swiper-button-next:after,
-  .swiper-button-prev:after {
-    font-size: 18px;
-  }
-  
-  .swiper-pagination-bullet {
-    background: #ffffff;
-    opacity: 0.7;
-  }
-  
-  .swiper-pagination-bullet-active {
-    opacity: 1;
-    background: #66c57f;
-  }
-  
-  .image-counter {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .no-images-message {
-    text-align: center;
-    padding: 30px;
-    color: #777;
-    background: #f9f9f9;
-    border-radius: 8px;
-  }
-  
-  .single-image {
-    max-width: 600px;
-    margin: 20px auto;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  }
-  
-  .single-image img {
-    width: 100%;
-    height: auto;
-  }
-  
-  .view-navigation {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-  }
-  
-  .btn-back {
-    background-color: #66c57f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-  }
-  
-  .btn-back:hover {
-    background-color: #4ca365;
-  }
-  
-  @media screen and (max-width: 720px) {
-    .view-content-wrap {
-      padding: 15px;
-    }
-    
-    .swiper {
-      height: 300px;
-    }
-
-    .view-blogs-section {
-      .faclt-review-wrap {
-        .contents-wrap {
-          margin: 0 0 15px 0;
-          .contents {
-            display: flex;
-            img {
-              display: inline-block;
-              width: 100%;
-              border-radius: 8px;
-              border: 1px solid #eee;
-            }
-            .review-wrap {
-              display: inline-block;
-              width: 100%;
-              padding: 5px 0 0 15px;
-              .tit {
-                font-size: 15px;
-                font-weight: 500;
-                margin-bottom: 10px;
-                color: #333;
-              }
-              .txt {
-                display: block;
-                font-size: 13px;
-                margin-bottom: 10px;
-                color: #959595;
-              }
-              .link {
-                margin: 5px 0 0 0;
-                .date {
-                  display: inline-block;
-                  position: relative;
-                  background: #ececec;
-                  color: #5e5e5e;
-                  padding: 2px 7px;
-                  font-size: 11px;
-                  font-weight: 300;
-                }
-                a {
-                  display: inline-block;
-                  position: relative;
-                  background: #009900;
-                  color: #fff;
-                  padding: 2px 7px;
-                  font-size: 11px;
-                  font-weight: 300;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
 </style>
 
 <script>
